@@ -1,6 +1,6 @@
-# Talkie App
+# Gonorrhea Streaming Server
 
-A walkie-talkie style chat app with Vue & Firebase.
+Gonorrhea Streaming is an extremely performant, lightweight reliable streaming platform.
 
 ## Project setup
 
