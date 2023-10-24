@@ -5,15 +5,16 @@ import (
 	"fmt"
 	"log"
 	"os"
-)
 
-const Version = "0.1.0"
+	"github.com/zagalvelozo/gonorrhea/server"
+)
 
 var usageStr = `
 Gonorrhea a command line interface for insert a virus.
 
 Basic Commands (Beginner):
 	version	 		Print the version information
+	serve	 		Init the server
 
 Usage:
 	gonorrhea [flags] [options]
@@ -25,7 +26,7 @@ func usage() {
 }
 
 func printVersion() {
-	fmt.Printf("version: %s\n", Version)
+	fmt.Printf("version: %s\n", server.VERSION)
 	os.Exit(0)
 }
 
@@ -44,6 +45,10 @@ func main() {
 	for _, v := range args {
 		if v == "version" {
 			printVersion()
+		}
+
+		if v == "serve" {
+			server.Serve()
 		}
 
 	}
