@@ -6,17 +6,24 @@ import (
 	"net/http"
 )
 
+type VersionResponse struct {
+	Version string `json:"version"`
+}
+
 const (
 	// VERSION is the current version for the server.
 	VERSION = "0.25.5"
 )
 
 func healthCheck(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "ok")
+	w.Header().Add("content-type", "application/json")
+	io.WriteString(w, "{}")
 }
 
 func getRoot(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, VERSION)
+	w.Header().Add("content-type", "application/json")
+	res, _ := json.Marshal(&VersionResponse{Version: VERSION})
+	io.WriteString(w, string(res))
 }
 
 func Serve() {
