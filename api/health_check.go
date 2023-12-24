@@ -1,4 +1,4 @@
-package apidef
+package api
 
 type (
 	HealthCheckStatus string
