@@ -1,12 +1,8 @@
 <template>
-  <div class="message" :class="{ 'from-user': owner }">
-    {{ message.text }}
-    <br />
-
-    <audio v-if="message.audioURL" :src="message.audioURL" controls></audio>
-    <br />
-
-    <span class="sender">from UID {{ message.sender }}</span>
+  <div class="box" :class="{ 'is-light has-text-right': owner }">
+    <p>{{ message.text }}</p>
+    <audio v-if="message.audioURL" :src="message.audioURL" controls class="mt-2"></audio>
+    <p class="is-size-7 has-text-grey">from UID {{ message.sender }}</p>
   </div>
 </template>
 

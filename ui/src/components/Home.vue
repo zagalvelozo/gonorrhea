@@ -1,33 +1,44 @@
 <template>
-  <aside class="section">
-    <div v-if="newUser">
-      <h3>Sign Up for a New Account</h3>
-      <a href="#" @click="newUser = false">Returning User?</a>
+  <div class="columns is-centered">
+    <div class="column is-half">
+      <div class="box">
+        <div v-if="newUser">
+          <h3 class="title is-4">Sign Up for a New Account</h3>
+          <a href="#" @click="newUser = false">Returning User?</a>
+        </div>
+        <div v-else>
+          <h3 class="title is-4">Sign In with Email</h3>
+          <a href="#" @click="newUser = true">New user?</a>
+        </div>
+
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control">
+            <input v-model="email" placeholder="email" type="email" class="input" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control">
+            <input v-model="password" type="password" class="input" />
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <button
+              class="button is-info"
+              :class="{ 'is-loading': loading }"
+              @click="signInOrCreateUser()"
+            >{{ newUser ? 'Sign Up' : 'Login' }}</button>
+          </div>
+        </div>
+
+        <p class="has-text-danger" v-if="errorMessage">{{ errorMessage }}</p>
+      </div>
     </div>
-
-    <div v-else>
-      <h3>Sign In with Email</h3>
-      <a href="#" @click="newUser = true">New user?</a>
-    </div>
-
-    <label for="email">Email</label>
-    <br />
-    <input v-model="email" placeholder="email" type="email" class="input" />
-
-    <label for="password">Password</label>
-    <br />
-    <input v-model="password" type="password" class="input" />
-
-    <br />
-
-    <button
-      class="button is-info"
-      :class="{ 'is-loading': loading }"
-      @click="signInOrCreateUser()"
-    >{{ newUser ? 'Sign Up' : 'Login'}}</button>
-
-    <p class="has-text-danger" v-if="errorMessage">{{ errorMessage }}</p>
-  </aside>
+  </div>
 </template>
 
 <script>

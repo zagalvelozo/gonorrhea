@@ -1,12 +1,24 @@
 <template>
   <div id="app">
-    <header>
-      <h1>Talkie App</h1>
-      <p>Realtime Walkie-Talkie Voice Chat</p>
-    </header>
-    <router-view></router-view>
+    <section class="hero is-light">
+      <div class="hero-body has-text-centered">
+        <p class="title">Talkie App</p>
+        <p class="subtitle">Realtime Walkie-Talkie Voice Chat</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <router-view></router-view>
+      </div>
+    </section>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+}
+</script>
 
 <script>
 export default {

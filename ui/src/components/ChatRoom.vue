@@ -1,47 +1,61 @@
 <template>
-  <main class="section">
-    <h3>Welcome to ChatRoom.vue {{ chatId }}</h3>
+  <div>
+    <nav class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <h3 class="title is-4">Chat Room: {{ chatId }}</h3>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <router-link to="/" class="button is-light is-small">Back</router-link>
+        </div>
+      </div>
+    </nav>
 
-    <router-link to="/">Back</router-link>
-
-    <p>
-    Open this link in another browser window to chat 
-      <code>https://your-url.com/#/chats/{{ chatId }}</code>
+    <p class="has-text-grey mb-4">
+      Open this link in another browser window to chat:
+      <code class="has-background-light p-1">https://your-url.com/#/chats/{{ chatId }}</code>
     </p>
 
     <User #user="{ user }">
       <div v-if="user">
-        <ul>
-          <li v-for="message of messages" :key="message.id">
-            <ChatMessage :message="message" :owner="user.uid === message.sender" />
-          </li>
-        </ul>
+        <div class="box messages-box">
+          <ul class="message-list">
+            <li v-for="message of messages" :key="message.id">
+              <ChatMessage :message="message" :owner="user.uid === message.sender" />
+            </li>
+          </ul>
+        </div>
 
-        <hr />
-        <h5>Record Audio</h5>
+        <div class="box">
+          <h5 class="title is-6">Record Audio</h5>
+          <div class="buttons">
+            <button v-if="!recorder" @click="record()" class="button is-info">Record Voice</button>
+            <button v-else @click="stop()" class="button is-danger">Stop</button>
+          </div>
 
-        <button v-if="!recorder" @click="record()" class="button is-info">Record Voice</button>
-        <button v-else @click="stop()" class="button is-danger">Stop</button>
+          <audio v-if="newAudio" :src="newAudioURL" controls class="mb-4"></audio>
 
-        <br />
-
-        <audio v-if="newAudio" :src="newAudioURL" controls></audio>
-
-        <hr />
-
-        <input v-model="newMessageText" class="input" />
-
-        <button
-          :disabled="(!newMessageText && !newAudio) || loading"
-          class="button is-success"
-          type="text"
-          @click="addMessage(user.uid)"
-        >Send</button>
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input v-model="newMessageText" class="input" placeholder="Type a message..." />
+            </div>
+            <div class="control">
+              <button
+                :disabled="(!newMessageText && !newAudio) || loading"
+                class="button is-success"
+                :class="{ 'is-loading': loading }"
+                @click="addMessage(user.uid)"
+              >Send</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <Login v-else />
     </User>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -136,18 +150,16 @@ export default {
 
 
 <style scoped>
-ul {
+.messages-box {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.message-list {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-width: 500px;
-  background: #efefef;
-  padding: 10px;
-  border-radius: 0;
 }
-li {
-  display: flex;
+.message-list li {
+  margin-bottom: 0.5rem;
 }
 </style>

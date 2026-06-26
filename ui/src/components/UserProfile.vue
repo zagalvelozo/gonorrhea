@@ -1,8 +1,7 @@
 <template>
-  <div>
-    Logged in as {{ user.uid }}
-    <br />
-    <button @click="auth.signOut()" class="button">Sign Out</button>
+  <div class="tags has-addons">
+    <span class="tag is-info is-light">{{ user.uid }}</span>
+    <button @click="auth.signOut()" class="tag is-danger is-delete">Sign Out</button>
   </div>
 </template>
 
