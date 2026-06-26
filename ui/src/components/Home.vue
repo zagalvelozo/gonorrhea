@@ -1,8 +1,5 @@
 <template>
   <aside class="section">
-    <h3>Sign in Anonymously</h3>
-    <button class="button" @click="auth.signInAnonymously()">Sign In</button>
-
     <div v-if="newUser">
       <h3>Sign Up for a New Account</h3>
       <a href="#" @click="newUser = false">Returning User?</a>
