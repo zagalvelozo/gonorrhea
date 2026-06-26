@@ -48,7 +48,7 @@
 import User from './User.vue';
 import ChatMessage from './ChatMessage.vue';
 import Login from './Login.vue';
-import { db, storage } from '../firebase';
+import { messages, storage } from '../api';
 export default {
   components: {
     User,
@@ -62,24 +62,50 @@ export default {
           messages: [],
           newAudio: null,
           recorder: null,
+          pollTimer: null,
       }
   },
   computed: {
     chatId() {
       return this.$route.params.id;
     },
-    messagesCollection() {
-      return db.doc(`chats/${this.chatId}`).collection('messages');
-    },
     newAudioURL() {
       return URL.createObjectURL(this.newAudio);
     }
   },
-  firestore() {
-    return {
-      messages: this.messagesCollection.orderBy('createdAt').limitToLast(10)
-    };
+  mounted() {
+    this.fetchMessages();
+    this.pollTimer = setInterval(this.fetchMessages, 3000);
   },
+  destroyed() {
+    if (this.pollTimer) clearInterval(this.pollTimer);
+  },
+  methods: {
+    async fetchMessages() {
+      try {
+        this.messages = await messages.getRecent(this.chatId);
+      } catch (e) {
+        console.error('Failed to fetch messages', e);
+      }
+    },
+    async addMessage(uid) {
+        this.loading = true;
+        let audioURL = null;
+        const messageId = Date.now().toString(36) + Math.random().toString(36).slice(2);
+        if (this.newAudio) {
+          audioURL = await storage.uploadAudio(this.chatId, messageId, this.newAudio);
+        }
+        await messages.send(this.chatId, {
+           text: this.newMessageText,
+           sender: uid,
+           createdAt: Date.now(),
+           audioURL
+        });
+        await this.fetchMessages();
+        this.loading = false;
+        this.newMessageText = '';
+        this.newAudio = null;
+    },
   methods: {
     async addMessage(uid) {
         this.loading = true;

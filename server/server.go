@@ -1,39 +1,56 @@
 package server
 
 import (
-	"io"
+	"encoding/json"
 	"log"
 	"net/http"
+
+	"github.com/zagalvelozo/gonorrhea/api"
+	"github.com/zagalvelozo/gonorrhea/util"
+)
+
+const (
+	VERSION = "0.25.5"
 )
 
 type VersionResponse struct {
 	Version string `json:"version"`
 }
 
-const (
-	// VERSION is the current version for the server.
-	VERSION = "0.25.5"
-)
-
-func healthCheck(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("content-type", "application/json")
-	io.WriteString(w, "{}")
-}
-
 func getRoot(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("content-type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	res, _ := json.Marshal(&VersionResponse{Version: VERSION})
-	io.WriteString(w, string(res))
+	w.Write(res)
 }
 
 func Serve() {
+	store := api.NewStore()
+	dataDir := util.GetEnv("DATA_DIR", "./data")
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", getRoot)
-	mux.healthCheck("/health", healthCheck)
 
-	err := http.ListenAndServe(":3333", mux)
-	if err != nil {
+	// Version endpoint.
+	mux.HandleFunc("/", getRoot)
+
+	// API routes.
+	// Chat routes (messages + audio upload).
+	api.RegisterChatRoutes(mux, store, dataDir)
+
+	// Serve uploaded audio files.
+	filesDir := http.Dir(dataDir)
+	mux.HandleFunc("/files/", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.NotFound(w, r)
+			return
+		}
+		http.StripPrefix("/files/", http.FileServer(filesDir)).ServeHTTP(w, r)
+	})
+
+	port := util.GetEnv("PORT", "3333")
+	log.Printf("server listening on :%s", port)
+
+	handler := api.CORS(mux)
+	if err := http.ListenAndServe(":"+port, handler); err != nil {
 		log.Fatalf("error starting server: %s\n", err)
 	}
 }
