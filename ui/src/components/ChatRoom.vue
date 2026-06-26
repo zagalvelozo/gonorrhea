@@ -53,7 +53,10 @@
         </div>
       </div>
 
-      <Login v-else />
+      <div v-else class="has-text-centered">
+        <p class="mb-3">Please sign in to join the chat.</p>
+        <router-link to="/login" class="button is-info">Sign In</router-link>
+      </div>
     </User>
   </div>
 </template>
@@ -61,12 +64,10 @@
 <script>
 import User from './User.vue';
 import ChatMessage from './ChatMessage.vue';
-import Login from './Login.vue';
 import { messages, storage } from '../api';
 export default {
   components: {
     User,
-    Login,
     ChatMessage,
   },
   data() {
