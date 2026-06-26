@@ -11,12 +11,15 @@ Vue.use(VueRouter)
 
 Vue.config.productionTip = false
 
-import Home from './components/Home'
+import Login from './components/Login'
+import SignUp from './components/SignUp'
 import ChatRoom from './components/ChatRoom'
 
 const router = new VueRouter({
   routes: [
-    { path: '/', component: Home },
+    { path: '/', redirect: '/login' },
+    { path: '/login', component: Login, name: 'login' },
+    { path: '/signup', component: SignUp, name: 'signup' },
     { path: '/chats/:id', component: ChatRoom, name: 'chat' }
   ]
 })
