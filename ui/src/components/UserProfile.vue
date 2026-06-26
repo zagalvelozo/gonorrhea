@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { auth } from "../firebase";
+import { auth } from "../api";
 export default {
   data() {
     return {
