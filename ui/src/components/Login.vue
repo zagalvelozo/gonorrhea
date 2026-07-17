@@ -64,35 +64,3 @@ export default {
   }
 };
 </script>
-
-<script>
-import { auth } from '../api';
-export default {
-  data() {
-    return {
-      auth,
-      newUser: false,
-      email: "",
-      password: "",
-      errorMessage: "",
-      loading: false
-    };
-  },
-  methods: {
-    async signInOrCreateUser() {
-      this.loading = true;
-      this.errorMessage = "";
-      try {
-        if (this.newUser) {
-          await auth.createUserWithEmailAndPassword(this.email, this.password);
-        } else {
-          await auth.signInWithEmailAndPassword(this.email, this.password);
-        }
-      } catch (error) {
-        this.errorMessage = error.message;
-      }
-      this.loading = false;
-    }
-  }
-};
-</script>

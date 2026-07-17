@@ -1,21 +1,15 @@
 import 'bulma/css/bulma.css'
 
-import Vue from 'vue'
+import { createApp } from 'vue'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
-import VueRouter from 'vue-router'
 
-import VueCompositionApi from '@vue/composition-api'
-Vue.use(VueCompositionApi)
+import Login from './components/Login.vue'
+import SignUp from './components/SignUp.vue'
+import ChatRoom from './components/ChatRoom.vue'
 
-Vue.use(VueRouter)
-
-Vue.config.productionTip = false
-
-import Login from './components/Login'
-import SignUp from './components/SignUp'
-import ChatRoom from './components/ChatRoom'
-
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHashHistory(),
   routes: [
     { path: '/', redirect: '/login' },
     { path: '/login', component: Login, name: 'login' },
@@ -24,7 +18,6 @@ const router = new VueRouter({
   ]
 })
 
-new Vue({
-  router,
-  render: h => h(App),
-}).$mount('#app')
+const app = createApp(App)
+app.use(router)
+app.mount('#app')

@@ -9,25 +9,15 @@
   "author": "J. Zagal",
   "license": "MIT",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext .js,.vue"
   },
   "dependencies": {
-    "@vue/composition-api": "^0.5.0",
     "bulma": "^1.0.4",
-    "core-js": "^3.6.4",
-    "vue": "^2.6.11",
-    "vue-router": "^3.1.6"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.2.0",
-    "@vue/cli-plugin-eslint": "~4.2.0",
-    "@vue/cli-service": "~4.2.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.1.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue": "^3.5.40",
+    "vue-router": "^4.6.4"
   },
   "eslintConfig": {
     "root": true,
@@ -35,16 +25,19 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "plugin:vue/vue3-essential",
       "eslint:recommended"
     ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
     "rules": {}
   },
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.8",
+    "eslint": "^10.7.0",
+    "eslint-plugin-vue": "^10.9.2",
+    "vite": "^8.1.5"
+  }
 }

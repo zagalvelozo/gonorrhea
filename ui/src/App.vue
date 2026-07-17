@@ -20,13 +20,6 @@ export default {
 }
 </script>
 
-<script>
-export default {
-  name: 'App',
-  components: {
-  }
-}
-</script>
 
 <style>
 header {

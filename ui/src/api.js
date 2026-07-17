@@ -1,4 +1,4 @@
-const API_BASE = process.env.VUE_APP_API_BASE || '/api';
+const API_BASE = '/api';
 
 // ---------------------------------------------------------------------------
 // Auth

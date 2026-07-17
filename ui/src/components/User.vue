@@ -6,20 +6,19 @@
 
 <script>
 import { auth } from "../api";
-import { ref } from "@vue/composition-api";
+import { ref, onBeforeUnmount } from "vue";
 export default {
   setup() {
     const user = ref(null);
     const unsubscribe = auth.onAuthStateChanged(
       u => (user.value = u)
     );
+    onBeforeUnmount(() => {
+      unsubscribe();
+    });
     return {
-      user,
-      unsubscribe
+      user
     };
-  },
-  destroyed() {
-    this.unsubscribe();
   }
 };
 </script>

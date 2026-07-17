@@ -92,7 +92,7 @@ export default {
     this.fetchMessages();
     this.pollTimer = setInterval(this.fetchMessages, 3000);
   },
-  destroyed() {
+  unmounted() {
     if (this.pollTimer) clearInterval(this.pollTimer);
   },
   methods: {
