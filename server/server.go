@@ -32,7 +32,9 @@ func Serve() {
 	// Version endpoint.
 	mux.HandleFunc("/", getRoot)
 
-	// API routes.
+	// Auth routes (anonymous, register, login, logout).
+	api.RegisterAuthRoutes(mux, store)
+
 	// Chat routes (messages + audio upload).
 	api.RegisterChatRoutes(mux, store, dataDir)
 
